@@ -72,7 +72,6 @@ module.exports = async function() {
 
 
     if (response.success && response.stdout) {
-        debugger;
         // windows uses `\r\n` for new lines, all other systems use `\n`
         // `process.platform` return `win32` for all versions of windows
         let new_line = process.platform === 'win32' ? '\r\n' : '\n';

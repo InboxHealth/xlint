@@ -72,9 +72,11 @@ module.exports = async function() {
 
 
     if (response.success && response.stdout) {
-        // windows uses `\r\n` for new lines, all other systems use `\n`
-        // `process.platform` return `win32` for all versions of windows
-        let new_line = process.platform === 'win32' ? '\r\n' : '\n';
+        // some users have new_lines configured to \r\n and some have \n
+        let new_line = '\n';
+        if (response.stdout.includes('\r\n')) {
+          new_line = '\r\n';
+        }
         // stdout from a `git diff --name-only` will return a string, with escaped
         // new lines, i.e. `file_1\nfile_2\n`, and there might be a final new line
         // we want to get a list of changed files, so we split on new line
@@ -92,11 +94,29 @@ module.exports = async function() {
                 const formatter = await eslint.loadFormatter('stylish');
                 const prettyResults = formatter.format(results);
                 console.log(prettyResults);
+                let errorCount   = 0;
+                let warningCount = 0;
+                let fixableErrorCount   = 0;
+                let fixableWarningCount = 0;
+                // some versions of node return a results array
+                if (results.length) {
+                    results.forEach(r => {
+                        errorCount += r.errorCount;
+                        warningCount += r.errorCount;
+                        fixableErrorCount += r.errorCount;
+                        fixableWarningCount += r.errorCount;
+                    });
+                } else {
+                    errorCount   = results.errorCount;
+                    warningCount = results.warningCount;
+                    fixableErrorCount   = results.fixableErrorCount;
+                    fixableWarningCount = results.fixableWarningCount;
+                }
                 if (
-                    results.errorCount === 0 &&
-                    results.warningCount === 0 &&
-                    results.fixableErrorCount == 0 &&
-                    results.fixableWarningCount === 0
+                    errorCount === 0 &&
+                    warningCount === 0 &&
+                    fixableErrorCount == 0 &&
+                    fixableWarningCount === 0
                 ) {
                     return 0;
                 } else {

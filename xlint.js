@@ -75,7 +75,7 @@ module.exports = async function() {
         // some users have new_lines configured to \r\n and some have \n
         let new_line = '\n';
         if (response.stdout.includes('\r\n')) {
-          new_line = '\r\n';
+            new_line = '\r\n';
         }
         // stdout from a `git diff --name-only` will return a string, with escaped
         // new lines, i.e. `file_1\nfile_2\n`, and there might be a final new line

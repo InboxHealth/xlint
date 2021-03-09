@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+const main = require('../xlint');
+
+main().then(
+    (res) => {
+        console.log(res);
+    }
+).catch(
+    (err) => {
+        process.exitCode = err;
+        return err;
+    }
+);

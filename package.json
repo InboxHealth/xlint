@@ -1,0 +1,17 @@
+{
+  "name": "xlint",
+  "version": "0.0.1",
+  "description": "A cross platform approach to running ESLint on only changed files in Git (requires git to be a part of System Path)",
+  "main": "xlint.js",
+  "scripts": {
+    "test": "'echo \"no tests\"'"
+  },
+  "bin": {
+    "xlint": "./bin/xlint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^7.21.0"
+  }
+}

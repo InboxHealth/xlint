@@ -7,13 +7,6 @@ const errors = {
     COMMAND_CANNOT_EXECUTE : 126,
 };
 
-/*
-    THIS SHOULD ONLY EVER BE ONE FILE, `scripts/pre-commit.js`
-*/
-const ignored_files = [
-    'scripts/pre-commit.js'
-];
-
 function os_run(cmd) {
     return new Promise(
         (res, rej) => {
@@ -84,7 +77,7 @@ module.exports = async function() {
         // we also want to filter out files that aren't `js, jsx, ts, tsx`
         // we also want to filter out ignored files
         let changed_files = response.stdout.split(new_line).filter(
-            cf => cf.length && (/(t|j)sx?$/g).test(cf) && !ignored_files.includes(cf)
+            cf => cf.length && (/(t|j)sx?$/g).test(cf)
         );
 
         if (changed_files.length) {

@@ -45,7 +45,9 @@ function os_run(cmd) {
 module.exports = async function() {
     // we only want to find files that have changed, are staged for commit
     // disable pager for git, as that redirects output away from stdout
-    let response = await os_run(`git --no-pager diff --cached --name-only`);
+    // only display modifications, new files, renames, copies,
+    // i.e. don't display delted files
+    let response = await os_run(`git --no-pager diff --cached --name-only --diff-filter=MRC`);
 
     // throw an error if we found an error
     if (response.error) {
